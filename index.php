@@ -38,8 +38,8 @@ if (isset($_SESSION['user']) == false) {
     <?php
     if ($_SESSION['user']['role'] == "超級管理者" || $_SESSION['user']['role'] == "一般管理者") {
         ?>
-        <button class="btn">帳戶管理</button>
-        <button class="btn">商品上架</button>
+        <button class="btn" onclick="location.href='users'">帳戶管理</button>
+        <button class="btn" onclick="location.href='layouts'">商品上架</button>
         <?php
     }
     ?>
