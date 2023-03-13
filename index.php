@@ -22,6 +22,18 @@
         padding: 5px 10px;
         margin: 5px;
     }
+
+    .inp{
+        width: 30%;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    form{
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
 </style>
 <body>
 <?php
@@ -45,6 +57,15 @@ if (isset($_SESSION['user']) == false) {
     ?>
 
     <button class="btn" onclick="location.href='./timeprocess.php?logout=logout'">登出</button>
+</div>
+
+<div class="menu">
+    <form action="" method="GET">
+        <input class="inp" type="text" name="price_min" placeholder="price min">
+        <input class="inp" type="text" name="price_max" placeholder="price max">
+
+        <button class="btn">搜尋</button>
+    </form>
 </div>
 </body>
 </html>
