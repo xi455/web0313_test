@@ -23,16 +23,43 @@
         margin: 5px;
     }
 
-    .inp{
+    .inp {
         width: 30%;
         border: 1px solid #333;
         border-radius: 5px;
         padding: 5px 10px;
     }
 
-    form{
+    form {
         text-align: center;
         border-bottom: 1px solid #333;
+    }
+
+    .layouts {
+        width: 300px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin: 5px;
+    }
+
+    .layout_div {
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin: 5px;
+        text-align: center;
+    }
+
+    img {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .container {
+        padding: 5px 10px;
+        display: flex;
+        justify-content: space-evenly;
     }
 </style>
 <body>
@@ -63,9 +90,47 @@ if (isset($_SESSION['user']) == false) {
     <form action="" method="GET">
         <input class="inp" type="text" name="price_min" placeholder="price min">
         <input class="inp" type="text" name="price_max" placeholder="price max">
-
         <button class="btn">搜尋</button>
     </form>
+</div>
+
+<div class="container">
+    <?php
+    $price_min = $_GET['price_min'] ?? "0";
+    $price_max = $_GET['price_max'] ?? "1000";
+    $sql = $db->prepare("select * from layouts where price between $price_min and $price_max");
+    $sql->execute();
+    $query = $sql->fetchAll();
+
+    foreach ($query as $item) {
+        $layout = json_decode($item["layouts"]);
+        ?>
+        <div class="layouts">
+            <?php
+            if ($_SESSION['user']['role'] == "超級管理者" || $_SESSION['user']['role'] == "一般管理者") {
+                ?>
+                <a href="./layout_edit.php?id=<?php echo $item["id"] ?>">修改</a>
+                <?php
+            }
+            ?>
+            <?php
+            foreach ($layout as $data) {
+                if ($data === "image") {
+                    ?>
+                    <img src="<?php echo $item[$data] ?>" alt="image">
+                    <?php
+                } else {
+                    ?>
+                    <div class="layout_div"><?php echo $data . ":" . $item["$data"] ?></div>
+                    <?php
+                }
+            }
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
 </div>
 </body>
 </html>

@@ -69,17 +69,17 @@
 </style>
 <body>
 <?php
-include('../link.php');
+include('./link.php');
 
 if (isset($_SESSION['user']) == false) {
-    header('location:../login.html');
+    header('location:./login.html');
 }
 ?>
 
 <div class="header">
     <h1>coffer layouts</h1>
 
-    <button class="btn" onclick="location.href='../'">返回</button>
+    <button class="btn" onclick="location.href='./'">返回</button>
 </div>
 
 <div id="app">
@@ -110,8 +110,15 @@ if (isset($_SESSION['user']) == false) {
         </div>
     </div>
 
+    <?php
+        $sql = $db->prepare('select * from layouts where id=:id');
+        $sql->bindValue('id', $_GET['id']);
+        $sql->execute();
+        $query = $sql->fetch();
+    ?>
+
     <div class="layouts" v-show="page === 1">
-        <form action="layoutprocess.php" method="post" enctype="multipart/form-data">
+        <form action="layout_editprocess.php" method="post" enctype="multipart/form-data">
             <label for="">圖片</label>
             <input type="file" name="image" @change="onupload">
             <label for="">姓名</label>
@@ -126,6 +133,7 @@ if (isset($_SESSION['user']) == false) {
             <label for="">價格</label>
             <input type="number" name="price" v-model="payload.price">
             <input type="hidden" name="layout" class="layout_1">
+            <input type="hidden" name="id" value="<?php echo $query['id']?>">
         </form>
     </div>
 
@@ -140,14 +148,14 @@ if (isset($_SESSION['user']) == false) {
 
 </body>
 
-<script src="../js/vue.js"></script>
-<script src="../js/jquery.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/jquery.js"></script>
 
 <script>
     const app = Vue.createApp({
         data() {
             return {
-                page: 0,
+                page: 1,
                 pages: {
                     "選擇版型": 0,
                     "賣家資料": 1,
@@ -185,11 +193,11 @@ if (isset($_SESSION['user']) == false) {
 
                 payload: {
                     "image": "",
-                    "name": "",
-                    "date": "",
-                    "link": "",
-                    "description": "",
-                    "price": "",
+                    "name": "<?php echo $query['name']?>" ?? "",
+                    "date": "<?php echo $query['date']?>" ?? "",
+                    "link": "<?php echo $query['link']?>" ?? "",
+                    "description": "<?php echo $query['description']?>" ?? "",
+                    "price": "<?php echo $query['price']?>" ?? "",
                 },
 
                 SelectLayout: 0,
