@@ -12,6 +12,7 @@ if ($_POST['captcha_server'] == $_POST['captcha_user']) {
         if ($query['password'] == $_POST['password']) {
             $_SESSION['user'] = $query;
             echo "<script>location.href='captcha_twice.html';</script>";
+//            echo "<script>location.href='timeprocess.php';</script>";
         } else {
             $_SESSION['num'] += 1;
             echo "<script>alert('密碼錯誤')</script>";
@@ -30,5 +31,5 @@ if ($_SESSION['num'] >= 3) {
     $_SESSION['num'] = 0;
 }
 
-$_SESSION['loser'] = $_POST['username'];
+$_SESSION['loser'] = $_POST['user'];
 echo "<script>location.href='./timeprocess.php';</script>";

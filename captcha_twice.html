@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .container {
+        width: 205px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .titles {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #333;
+    }
+
+    .active {
+        background-color: #bbb;
+    }
+</style>
+<body>
+<div id="app">
+    <h1>{{title_name[title_random]}}</h1>
+    <div class="container">
+        <div v-for="i in 4">
+            <div :key="i" class="titles" :data-i="i" @click="e => e.target.classList.toggle('active')"></div>
+        </div>
+    </div>
+    <button @click="onSub">送出</button>
+</div>
+
+</body>
+<script src="./js/vue.js"></script>
+<script src="./js/jquery.js"></script>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                title_random: Math.round(Math.random()),
+                title_name: ["水平", "垂直"],
+                title_any: {
+                    "水平": ["12", "34"],
+                    "垂直": ["13", "24"],
+                },
+            }
+        },
+        methods: {
+            onSub() {
+                let title_user = [...$(".active")]
+                let title_data = title_user.map(e => e.dataset.i).join("")
+                console.log(title_data)
+                location.href = "./timeprocess.php"
+
+                if(this.title_any[this.title_name[this.title_random]].includes(title_data)){
+                    console.log(true)
+                }else{
+                    console.log(false)
+                }
+            }
+        }
+    })
+
+    app.mount("#app")
+</script>
+</html>
