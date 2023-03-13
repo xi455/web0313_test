@@ -44,7 +44,7 @@ if (isset($_SESSION['user']) == false) {
     }
     ?>
 
-    <button class="btn" onclick="./logout.php">登出</button>
+    <button class="btn" onclick="location.href='./timeprocess.php?logout=logout'">登出</button>
 </div>
 </body>
 </html>

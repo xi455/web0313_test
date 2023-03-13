@@ -5,7 +5,12 @@ include('./link.php');
 $sql = $db->prepare('insert into usertime (name, state, succend) values(:name, :state, :succend)');
 
 
-if (isset($_SESSION['user'])) {
+if (isset($_GET['logout'])) {
+    $sql->bindValue('name', $_SESSION['user']['username']);
+    $sql->bindValue('state', "登出");
+    $sql->bindValue('succend', 1);
+    unset($_SESSION['user']);
+} elseif (isset($_SESSION['user'])) {
     $sql->bindValue('name', $_SESSION['user']['username']);
     $sql->bindValue('state', "登入");
     $sql->bindValue('succend', 1);
